@@ -1,0 +1,22 @@
+{
+  "name": "nome-do-projeto",
+  "version": "1.0.0",
+  "description": "Descrição do projeto",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon src/index.js"
+  },
+  "author": "Seu Nome",
+  "license": "MIT",
+  "dependencies": {
+    "bcrypt": "^5.1.0",
+    "dotenv": "^16.3.1",
+    "express": "^4.17.1",
+    "jsonwebtoken": "^9.0.1",
+    "mongoose": "^7.3.4",
+    "nodemon": "^3.0.1",
+    "swagger-ui-express": "^5.0.0"
+  }
+}
