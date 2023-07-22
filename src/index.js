@@ -7,7 +7,7 @@ import dotenv from "dotenv";
 import userRoute from "./routes/user.route.js";
 import authRoute from "./routes/auth.route.js";
 import newsRoute from "./routes/news.route.js";
-const swaggerRoute = require("./routes/swagger.route.cjs"); // Use a função `require` para importar o módulo CommonJS
+import swaggerRoute from "./routes/swagger.route.cjs";
 
 dotenv.config();
 
