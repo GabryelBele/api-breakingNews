@@ -1,6 +1,5 @@
-// index.js
-
 import express from "express";
+import cors from "cors";
 import connectDatabase from "./database/db.js";
 import dotenv from "dotenv";
 
@@ -15,6 +14,9 @@ connectDatabase();
 
 const app = express();
 const port = 3000;
+
+// Configurando o CORS
+app.use(cors());
 
 app.use(express.json());
 
