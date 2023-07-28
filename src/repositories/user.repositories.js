@@ -15,14 +15,19 @@ const updateUserRepository = (
   email,
   password,
   avatar,
-  background
+  background  
 ) =>
   User.findOneAndUpdate(
     {
       _id: userId,
     },
     {
-      body
+      name,
+      username,
+      email,
+      password,
+      avatar,
+      background,
     },
     {
       rawResult: true,

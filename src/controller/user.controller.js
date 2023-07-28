@@ -8,7 +8,7 @@ const createUserController = async (req, res) => {
 
     return res.status(201).send(user);
   } catch (e) {
-    return res.status(500).send(e.message);
+    return res.status(400).send(e.message);
   }
 };
 
@@ -17,7 +17,7 @@ const findAllUserController = async (req, res) => {
     const users = await userService.findAllUserService();
     return res.send(users);
   } catch (e) {
-    res.status(500).send(e.message);
+    res.status(404).send(e.message);
   }
 };
 
@@ -29,7 +29,7 @@ const findByIdUserController = async (req, res) => {
     const user = userService.findUserByIdService(userId, userIdLogged);
     return res.send(user);
   } catch (e) {
-    res.status(500).send(e.message);
+    res.status(400).send(e.message);
   }
 };
 
@@ -41,7 +41,7 @@ const updateUserController = async (req, res) => {
     const response = await userService.updateUserService(body, userId);
     return res.send(response);
   } catch (e) {
-    res.status(500).send(e.message);
+    res.status(400).send(e.message);
   }
 };
 

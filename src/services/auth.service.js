@@ -3,9 +3,9 @@ import bcrypt from "bcrypt";
 import "dotenv/config";
 import userRepositories from "../repositories/user.repositories.js";
 
-function generateToken(id) {
-  return jwt.sign({ id: id }, process.env.SECRET, { expiresIn: 86400 });
-}
+const generateToken = (id) =>
+  jwt.sign({ id: id }, process.env.SECRET_JWT, { expiresIn: 86400 });
+
 
 const loginService = async (body) => {
   const { email, password } = body;

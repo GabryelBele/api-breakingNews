@@ -136,7 +136,7 @@ export const findPostsByUserIdService = async (id) => {
   const news = await findPostsByUserIdRepository(id);
 
   return res.send({
-    results: news.map((item) => ({
+    postsByUser: news.map((item) => ({
       id: item._id,
       title: item.title,
       text: item.text,

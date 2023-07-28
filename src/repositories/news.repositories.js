@@ -25,7 +25,7 @@ export const searchPostRepository = async (title) => {
     .populate("user");
 };
 
-export const findByIdPostRepository = async (id) =>
+export const findPostByIdRepository = async (id) =>
   await News.findById(id).populate("User");
 
 export const findPostsByUserIdRepository = async (id) => {

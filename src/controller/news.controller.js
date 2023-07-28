@@ -46,7 +46,7 @@ export const findByIdPostController = async (req, res) => {
     const news = await findByIdPostService(id);
     return res.send(news);
   } catch (e) {
-    res.status(500).send(e.message);
+    res.status(404).send(e.message);
   }
 };
 
