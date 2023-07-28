@@ -2,11 +2,11 @@ import { Router } from "express";
 import userController from "../controller/user.controller.js";
 import { validId, validUser } from "../middlewares/global.middleware.js";
 
-const router = Router();
+const userRoute = Router();
 
-router.post("/", userController.create);
-router.get("/", userController.findAll);
-router.get("/:id", validId, validUser, userController.findById);
-router.patch("/:id", validId, validUser, userController.update);
+userRoute.post("/", userController.createUserController);
+userRoute.get("/", userController.findAllUserController);
+userRoute.get("/:id", validId, validUser, userController.findByIdUserController);
+userRoute.patch("/:id", validId, validUser, userController.updateUserController);
 
-export default router;
+export default userRoute;

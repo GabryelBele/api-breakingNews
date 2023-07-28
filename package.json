@@ -1,12 +1,12 @@
 {
-  "name": "nome-do-projeto",
+  "name": "api-breakingnews",
   "version": "1.0.0",
   "description": "Descrição do projeto",
-  "main": "index.js",
+  "main": "server.js",
   "type": "module",
   "scripts": {
-    "start": "node src/index",
-    "dev": "nodemon src/index"
+    "start": "node src/server.js",
+    "dev": "nodemon src/server.js"
   },
   "author": "Seu Nome",
   "license": "MIT",

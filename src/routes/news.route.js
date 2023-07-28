@@ -1,32 +1,28 @@
+import { commentDeletePostController, commentPostController, createPostController, deletePostController, findAllPostController, findPostsByUserIdController, likePostController, searchByTitleController, topNewsController, updatePostController } from "../controller/news.controller.js";
+import authMiddleware from "../middlewares/auth.middleware.js";
+import { validId } from "../middlewares/global.middleware.js";
+
 import { Router } from "express";
-const router = Router();
 
-import {
-  create,
-  findAll,
-  topNews,
-  findById,
-  searchByTitle,
-  byUser,
-  update,
-  erase,
-  likeNews,
-  addComment,
-  deleteComment,
-} from "../controller/news.controller.js";
-import { authMiddleware } from "../middlewares/auth.middleware.js";
+const postRouter = Router();
 
-router.post("/", authMiddleware, create);
-router.get("/", findAll);
-router.get("/top", topNews);
-router.get("/search", searchByTitle);
-router.get("/byUser", authMiddleware, byUser);
+postRouter.get("/", findAllPostController);
+postRouter.get("/top", topNewsController);
+postRouter.get("/search", searchByTitleController);
 
-router.get("/:id", authMiddleware, findById);
-router.patch("/:id", authMiddleware, update);
-router.delete("/:id", authMiddleware, erase);
-router.patch("/like/:id", authMiddleware, likeNews);
-router.patch("/comment/:id", authMiddleware, addComment);
-router.patch("/comment/:idNews/:idComment", authMiddleware, deleteComment);
+postRouter.use(authMiddleware);
+postRouter.post("/create", createPostController);
 
-export default router;
+postRouter.use(validId);
+postRouter.get("/byIdPost/:id", findPostsByUserIdController);
+postRouter.get("/byUserId", findPostsByUserIdController);
+postRouter.patch("/update/:id", updatePostController);
+postRouter.delete("/delete/:id", deletePostController);
+postRouter.patch("/:id/like", likePostController);
+postRouter.patch("/:id/comment", commentPostController);
+postRouter.patch(
+  "/:id/:idComment/comment",
+  commentDeletePostController
+);
+
+export default postRouter;

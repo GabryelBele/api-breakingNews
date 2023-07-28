@@ -1,91 +1,53 @@
 import userService from "../services/user.service.js";
 
-const create = async (req, res) => {
+const createUserController = async (req, res) => {
+  const body = req.body;
+
   try {
-    const { name, username, email, password, avatar, background } = req.body;
+    const user = await userService.createUserService(body);
 
-    if (!username || !name || !email || !password || !avatar || !background) {
-      return res.status(400).send({
-        message: "Submit all fields for registration",
-      });
-    }
-
-    const user = await userService
-      .createUserSevice(req.body)
-      .catch((err) => console.log(err.message));
-
-    if (!user) {
-      return res.status(400).send({
-        message: "Error creating User",
-      });
-    }
-
-    res.status(201).send({
-      message: "User created",
-      user: {
-        id: user.id,
-        name,
-        username,
-        email,
-        avatar,
-        background,
-      },
-    });
-  } catch (err) {
-    res.status(500).send({ message: err.message });
+    return res.status(201).send(user);
+  } catch (e) {
+    return res.status(500).send(e.message);
   }
 };
 
-const findAll = async (req, res) => {
+const findAllUserController = async (req, res) => {
   try {
     const users = await userService.findAllUserService();
-
-    if (users.length === 0) {
-      return res.status(400).send({
-        message: "There are no registered users",
-      });
-    }
-
-    res.send(users);
-  } catch (err) {
-    res.status(500).send({ message: err.message });
+    return res.send(users);
+  } catch (e) {
+    res.status(500).send(e.message);
   }
 };
 
-const findById = async (req, res) => {
+const findByIdUserController = async (req, res) => {
+  const { id: userId } = req.params.id;
+  const userIdLogged = req.userId;
+
   try {
-    const user = req.user;
-    res.send(user);
-  } catch (err) {
-    res.status(500).send({ message: err.message });
+    const user = userService.findUserByIdService(userId, userIdLogged);
+    return res.send(user);
+  } catch (e) {
+    res.status(500).send(e.message);
   }
 };
 
-const update = async (req, res) => {
+const updateUserController = async (req, res) => {
+  const body = req.body;
+  const userId = req.userId;
+
   try {
-    const { name, username, email, password, avatar, background } = req.body;
-    const { id, user } = req;
-
-    if (!name && !username && !email && !password && !avatar && !background) {
-      res.status(400).send({
-        message: "Submit at least one field to update the user",
-      });
-    }
-
-    await userService.updateUserService(
-      id,
-      name,
-      username,
-      email,
-      password,
-      avatar,
-      background
-    );
-
-    return res.send({ message: "User successfully updated!" });
-  } catch (err) {
-    res.status(500).send({ message: err.message });
+    const response = await userService.updateUserService(body, userId);
+    return res.send(response);
+  } catch (e) {
+    res.status(500).send(e.message);
   }
 };
 
-export default { create, findAll, findById, update };
+export default {
+  createUserController,
+  findAllUserController,
+  findByIdUserController,
+  updateUserController,
+};

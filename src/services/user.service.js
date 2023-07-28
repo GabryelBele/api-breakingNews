@@ -1,40 +1,87 @@
-import User from "../models/User.js";
+import userRepositories from "../repositories/user.repositories";
+import authService from "../services/auth.service.js";
+import bcrypt from "bcrypt";
 
-const createUserSevice = (body) => User.create(body);
+const createUserService = async (body) => {
+  const { name, username, email, password, avatar, background } = body;
 
-const findAllUserService = () => User.find();
+  if (!username || !name || !email || !password || !avatar || !background)
+    throw new Error("Submit all fields for registration");
 
-const findByIdUserService = (idUser) => User.findById(idUser);
+  const foundUser = await userRepositories.findByEmailUserRepository(email);
 
-const updateUserService = (
-  id,
-  name,
-  username,
-  email,
-  password,
-  avatar,
-  background
-) =>
-  User.findOneAndUpdate(
-    {
-      _id: id,
-    },
-    {
+  if (foundUser) throw new Error("User already exist");
+
+  const user = await userRepositories.createUserRepository(body);
+
+  if (!user) throw new Error("Error Creating User");
+
+  const token = authService.generateToken(user.id);
+
+  return {
+    message: "User created",
+    user: {
+      id: user.id,
       name,
       username,
       email,
-      password,
       avatar,
       background,
     },
-    {
-      rawResult: true,
-    }
+    token,
+  };
+};
+
+const findAllUserService = async () => {
+  const users = await userRepositories.findAllUserRepository();
+
+  if (users.length === 0) throw new Error("There are no registered users");
+
+  return users;
+};
+
+const findUserByIdService = async (userId, userIdLogged) => {
+  let idParam;
+
+  if (!userId) {
+    req.params.id = userIdLogged;
+    idParam = req.params.id;
+  } else {
+    idParam = req.params.id;
+  }
+  if (!idParam)
+    throw new Error("Send an id in the parameters to search for the user");
+
+  const user = await userRepositories.findByIdUserRepository(idParam);
+
+  return user;
+};
+
+const updateUserService = async (body, userId) => {
+  const { name, username, email, password, avatar, background } = body;
+
+  if (!name && !username && !email && !password && !avatar && !background)
+    throw new Error("Submit at least one field to update the user");
+
+  const user = await userRepositories.findByIdUserRepository(userId);
+
+  if (!user) throw new Error("Nonexistent user");
+
+  if (user._id !== userId) throw new Error("You cannot update this user");
+
+  if (password) password = await bcrypt.hash(password, 10);
+
+  await userRepositories.updateUserRepository(
+    userId,
+    body
   );
 
+  return res.send({ message: "User successfully updated!" });
+};
+
 export default {
-  createUserSevice,
+  createUserService,
   findAllUserService,
-  findByIdUserService,
+  findUserByIdService,
   updateUserService,
 };
