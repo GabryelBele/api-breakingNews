@@ -1,4 +1,4 @@
-import userRepositories from "../repositories/user.repositories";
+import userRepositories from "../repositories/user.repositories.js";
 import authService from "../services/auth.service.js";
 import bcrypt from "bcrypt";
 
@@ -40,22 +40,24 @@ const findAllUserService = async () => {
   return users;
 };
 
-const findUserByIdService = async (userId, userIdLogged) => {
+const findUserByIdService = async(userIdParam, userIdLogged) => {
   let idParam;
-
-  if (!userId) {
-    req.params.id = userIdLogged;
-    idParam = req.params.id;
+  if (!userIdParam) {
+    userIdParam = userIdLogged;
+    idParam = userIdParam;
   } else {
-    idParam = req.params.id;
+    idParam = userIdParam;
   }
   if (!idParam)
     throw new Error("Send an id in the parameters to search for the user");
 
   const user = await userRepositories.findByIdUserRepository(idParam);
 
+  if (!user) throw new Error("User not found");
+
   return user;
-};
+}
+
 
 const updateUserService = async (body, userId) => {
   const { name, username, email, password, avatar, background } = body;

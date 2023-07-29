@@ -14,9 +14,9 @@ export const findAllPostsRepository = async (offset, limit) => {
 
 export const countNews = async () => await News.countDocuments();
 
-export const topNewsRepository = async () =>
-  await News.findOne({ _id: -1 }).populate("User");
-
+export const topNewsRepository = async () => {
+  return await News.findOne().sort({ _id: -1 }).populate("user");
+}
 export const searchPostRepository = async (title) => {
   return await News.find({
     title: { $regex: `${title || ""}`, $options: "i" },

@@ -1,4 +1,4 @@
-import { commentDeletePostController, commentPostController, createPostController, deletePostController, findAllPostController, findPostsByUserIdController, likePostController, searchByTitleController, topNewsController, updatePostController } from "../controller/news.controller.js";
+import { commentDeletePostController, commentPostController, createPostController, deletePostController, findAllPostController, findByIdPostController, findPostsByUserIdController, likePostController, searchByTitleController, topNewsController, updatePostController } from "../controller/news.controller.js";
 import authMiddleware from "../middlewares/auth.middleware.js";
 import { validId } from "../middlewares/global.middleware.js";
 
@@ -14,7 +14,7 @@ postRouter.use(authMiddleware);
 postRouter.post("/create", createPostController);
 
 postRouter.use(validId);
-postRouter.get("/byIdPost/:id", findPostsByUserIdController);
+postRouter.get("/byIdPost/:id", findByIdPostController);
 postRouter.get("/byUserId", findPostsByUserIdController);
 postRouter.patch("/update/:id", updatePostController);
 postRouter.delete("/delete/:id", deletePostController);

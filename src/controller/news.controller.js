@@ -1,5 +1,6 @@
 import {
   createPostService,
+  findAllPostService,
   findPostsByUserIdService,
   searchByTitleService,
   topNewsService,

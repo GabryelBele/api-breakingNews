@@ -4,7 +4,7 @@ import {
   countNews,
   createPostRepository,
   deletePostRepository,
-  findByIdPostRepository,
+  findAllPostsRepository,
   findPostsByUserIdRepository,
   likesDeletePostRepository,
   searchPostRepository,
@@ -38,7 +38,7 @@ export const findAllPostService = async (offset, limit, currentUrl) => {
     offset = 0;
   }
 
-  const news = await findAllPostService(offset, limit);
+  const news = await findAllPostsRepository(offset, limit);
   const total = await countNews();
 
   const next = offset + limit;
@@ -73,24 +73,24 @@ export const findAllPostService = async (offset, limit, currentUrl) => {
 };
 
 export const topNewsService = async () => {
-  const news = await topNewsRepository();
+  const post = await topNewsRepository();
 
-  if (!news) throw new Error("There is no registered post");
+  if (!post) throw new Error("There is no registered post");
 
   return {
-    news: {
-      id: news._id,
-      title: news.title,
-      text: news.text,
-      banner: news.banner,
-      likes: news.likes,
-      comments: news.comments,
-      name: news.user.name,
-      username: news.user.username,
-      userAvatar: news.user.avatar,
+    post: {
+      id: post._id,
+      title: post.title,
+      banner: post.banner,
+      text: post.text,
+      likes: post.likes,
+      comments: post.comments,
+      name: post.user.name,
+      username: post.user.username,
+      avatar: post.user.avatar,
     },
   };
-};
+}
 
 export const findByIdPostService = async (id) => {
   const news = await findByIdPostRepository(id);
